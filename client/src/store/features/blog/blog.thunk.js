@@ -94,3 +94,15 @@ export const updateBlogThunk = createAsyncThunk(
     }
   },
 );
+
+export const getReletedBlogsThunk = createAsyncThunk(
+  "blog/getReletedBlogsThunk", 
+  async (id, {rejectWithValue}) => {
+    try {
+      const response = await axiosInstance(`/blog/get-blogs-by-category/${id}`)
+      return response?.data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.message);
+    }
+  }
+)

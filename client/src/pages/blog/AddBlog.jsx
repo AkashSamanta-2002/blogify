@@ -5,7 +5,7 @@ import { FaCamera } from "react-icons/fa";
 import CkEditor from "../../service/components/CkEditor";
 import slugify from "slugify";
 import { postBlogThunk } from "../../store/features/blog/blog.thunk";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const AddBlog = () => {
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ const AddBlog = () => {
 
   const handleEditorData = (event, editor) => {
     const editorData = editor.getData();
+    console.log(editorData);
     setBlogData({ ...blogData, content: editorData });
   };
 
@@ -55,14 +56,14 @@ const AddBlog = () => {
 
   const handleBlogSubmit = () => {
     (async () => {
-      const response = await dispatch(postBlogThunk(blogData))
-      if(response?.payload?.success) {
-        navigaet('/blog')
+      const response = await dispatch(postBlogThunk(blogData));
+      if (response?.payload?.success) {
+        navigaet("/blog");
       }
-    })()
+    })();
   };
 
-  const {screenLoading} = useSelector(state => state.blog)
+  const { screenLoading } = useSelector((state) => state.blog);
 
   if (screenLoading) {
     return (

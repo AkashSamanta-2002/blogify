@@ -42,7 +42,7 @@ const Blogs = () => {
   };
 
   return (
-    <div>
+    <div className="p-2">
       <div className="card bg-base-100 shadow-sm rounded-2xl border border-base-300 w-full max-w-6xl mx-auto mt-10 overflow-hidden">
         <div className="card-body">
           <div>

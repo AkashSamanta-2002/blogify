@@ -166,7 +166,10 @@ export const getBlogById = asynchandler(async (req, res, next) => {
   }
 
   // get blog by id
-  const blog = await Blog.findById({ _id: id }).populate(["category", "author"]);
+  const blog = await Blog.findById({ _id: id }).populate([
+    "category",
+    "author",
+  ]);
 
   if (!blog) {
     return next(new errorhandler("Blog does not existed", 400));
@@ -184,13 +187,16 @@ export const getBlogByCategoryId = asynchandler(async (req, res, next) => {
   }
 
   // get blog by id
-  const blog = await Blog.findById({ category: categoryId }).populate(["category", "author"]);
+  const blogs = await Blog.find(
+    { category: categoryId },
+    { featured_image: true, title: true },
+  );
 
-  if (!blog) {
+  if (!blogs) {
     return next(new errorhandler("Blog does not existed", 400));
   }
 
-  return res.status(200).json(new responsehandler(200, "Blog found", blog));
+  return res.status(200).json(new responsehandler(200, "Blog found", blogs));
 });
 
 export const getAllBlogsByUserID = asynchandler(async (req, res, next) => {
@@ -205,12 +211,18 @@ export const getAllBlogsByUserID = asynchandler(async (req, res, next) => {
   const loggedInUser = req.user;
 
   // restrict the user to get blogs
-  if(!loggedInUser._id.equals(userId) && !loggedInUser.role.includes("admin")) {
+  if (
+    !loggedInUser._id.equals(userId) &&
+    !loggedInUser.role.includes("admin")
+  ) {
     return next(new errorhandler("Access denied", 400));
   }
 
   // get blog by userId
-  const blogs = await Blog.find({ author: userId }).populate(["author", 'category']);
+  const blogs = await Blog.find({ author: userId }).populate([
+    "author",
+    "category",
+  ]);
 
   if (!blogs) {
     return next(new errorhandler("No Blog exists", 400));
