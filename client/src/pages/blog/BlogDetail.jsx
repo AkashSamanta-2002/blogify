@@ -10,6 +10,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaRegComment } from "react-icons/fa";
 import { decode } from "he";
+import Comment from "./Comment";
 
 const BlogDetail = () => {
   const dispatch = useDispatch();
@@ -105,9 +106,12 @@ const BlogDetail = () => {
               __html: decode(blog?.data?.content || ""),
             }}
           />
+
+          <div className="divider"></div>
+        <Comment />
         </div>
       </div>
-      <div className="card shadow-sm bg-base-100-500 w-75 p-3">
+      <div className="card shadow-sm bg-base-100-500 w-75 pb-10 pl-3 pr-3 pt-2 h-fit">
         <h1 className="text-center mt-5 mb-5 text-2xl font-bold text-[#393838]">
           Releted Blogs
         </h1>
