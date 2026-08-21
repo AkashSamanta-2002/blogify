@@ -5,18 +5,22 @@ import {
   getBlogByIdThunk,
   getReletedBlogsThunk,
 } from "../../store/features/blog/blog.thunk";
-import { FaUser } from "react-icons/fa";
+import { getLikesThunk, postLikeandDislikeThunk } from "../../store/features/likes/like.thunk";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaRegComment } from "react-icons/fa";
 import { decode } from "he";
 import Comment from "./Comment";
+import { FcLike } from "react-icons/fc";
 
 const BlogDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { comments } = useSelector((state) => state.comment);
   const { id } = useParams();
+
+  const { userProfile } = useSelector((state) => state.user);
+
   useEffect(() => {
     dispatch(getBlogByIdThunk(id));
   }, [id, dispatch]);
@@ -41,6 +45,19 @@ const BlogDetail = () => {
   }, [blog?.data?.category?._id, dispatch]);
   const { multipleBlogData } = useSelector((state) => state.blog);
   const reletedBlogs = multipleBlogData?.data;
+
+  const handleLike = () => {
+    dispatch(postLikeandDislikeThunk(id))
+  }
+
+  useEffect(() => {
+    dispatch(getLikesThunk(id));
+  }, [id, dispatch]);
+  const { likes } = useSelector((state) => state.like);
+
+  const isLiked = likes?.some(
+    (like) => like?.author?.toString() === userProfile?._id?.toString(),
+  );
 
   const { screenLoading } = useSelector((state) => state.blog);
 
@@ -87,11 +104,19 @@ const BlogDetail = () => {
               </div>
             </div>
             <div className="flex items-center gap-5">
-              <span className="text-xl">
-                <CiHeart />
+              <span className="flex items-center gap-1">
+                <button onClick={handleLike}>
+                  {isLiked ? (
+                    <FcLike className={`text-xl cursor-pointer`} />
+                  ) : (
+                    <CiHeart className={`text-xl cursor-pointer`} />
+                  )}
+                </button>
+                <span>{likes?.length || 0}</span>
               </span>
-              <span>
+              <span className="flex items-center gap-1">
                 <FaRegComment />
+                <span>{comments?.length}</span>
               </span>
             </div>
           </div>
@@ -108,7 +133,7 @@ const BlogDetail = () => {
           />
 
           <div className="divider"></div>
-        <Comment />
+          <Comment />
         </div>
       </div>
       <div className="card shadow-sm bg-base-100-500 w-75 pb-10 pl-3 pr-3 pt-2 h-fit">

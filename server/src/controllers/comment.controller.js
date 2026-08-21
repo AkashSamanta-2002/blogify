@@ -26,27 +26,33 @@ export const postComment = asynchandler(async (req, res, next) => {
     );
   }
 
-  const comments = await Comment.find({ blog: blogId }).populate('author', 'name avatar');
+  const comments = await Comment.find({ blog: blogId })
+    .populate("author", "name avatar")
+    .sort({ createdAt: -1 });
   if (!comments) {
     return next(new errorhandler("Please reload", 400));
   }
 
-  return res.status(201).json(
-    new responsehandler(201, "Comment submitted successfully", comments),
-  );
+  return res
+    .status(201)
+    .json(new responsehandler(201, "Comment submitted successfully", comments));
 });
 
 export const getCommentsByBlog = asynchandler(async (req, res, next) => {
-  const {id} = req.params;
-  
-  if(!id) {
-    return next(new errorhandler("Blog id is required", 400))
+  const { id } = req.params;
+
+  if (!id) {
+    return next(new errorhandler("Blog id is required", 400));
   }
 
-  const comments = await Comment.find({ blog: id }).populate('author', 'name avatar');
+  const comments = await Comment.find({ blog: id })
+    .populate("author", "name avatar")
+    .sort({ createdAt: -1 });
   if (!comments) {
-    return next(new errorhandler("Something went wrong while fetching comments", 400));
+    return next(
+      new errorhandler("Something went wrong while fetching comments", 400),
+    );
   }
 
-  return res.status(200).json(new responsehandler(200, '', comments))
-})
+  return res.status(200).json(new responsehandler(200, "", comments));
+});

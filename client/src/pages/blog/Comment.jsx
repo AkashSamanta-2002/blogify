@@ -6,6 +6,7 @@ import {
   postComment,
 } from "../../store/features/comment/comment.thunk";
 import { useParams } from "react-router-dom";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const Comment = () => {
   const [comment, setComment] = useState("");
@@ -14,6 +15,7 @@ const Comment = () => {
 
   const handleComment = () => {
     dispatch(postComment({ id, comment }));
+    setComment('')
   };
 
   useEffect(() => {
@@ -32,7 +34,6 @@ const Comment = () => {
     return formattedDate;
   };
 
-  console.log(comments);
   return (
     <>
       <div className="flex items-center gap-3">
@@ -44,6 +45,7 @@ const Comment = () => {
       <span>Comment</span>
       <textarea
         placeholder="Type your comment..."
+        value={comment}
         className="textarea textarea-primary w-full"
         onChange={(e) => setComment(e.target.value)}
       ></textarea>
@@ -60,17 +62,34 @@ const Comment = () => {
           <span>comments</span>
         </div>
 
-        <div className="flex flex-col gap-2 mt-4">
+        <div className="flex flex-col gap-4 mt-6">
           {comments?.map((com) => (
-            <div key={com._id} className="flex items-center gap-2">
-              <img
-                className="h-12 w-12 rounded-full object-cover border border-gray-300 shadow-sm"
-                src={com?.author?.avatar}
-                alt={com?.author?.name || "User avatar"}
-              />
-              <div>
-                <div>{com?.author?.name}</div>
-                <div>{getFormattedDate(com?.createdAt)}</div>
+            <div key={com._id}>
+              {/* User Info */}
+              <div className="flex items-center gap-3">
+                <img
+                  className="h-11 w-11 rounded-full object-cover border border-gray-200"
+                  src={com?.author?.avatar}
+                  alt={com?.author?.name || "User avatar"}
+                />
+
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-800 text-sm">
+                    {com?.author?.name}
+                  </span>
+
+                  <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-0.5">
+                    <FaCalendarAlt size={13} />
+                    <span>{getFormattedDate(com?.createdAt)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comment */}
+              <div className="mt-3 ml-14">
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  {com?.comment}
+                </p>
               </div>
             </div>
           ))}
