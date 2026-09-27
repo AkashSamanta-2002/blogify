@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserProfileThunk } from "./store/features/user/user.thunk";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./pages/Home/layout/Layout";
-import Home from "./pages/Home/Home";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 import Profile from "./pages/components/Profile";
@@ -16,6 +13,9 @@ import Blogs from "./pages/blog/Blogs";
 import AddBlog from "./pages/blog/AddBlog";
 import EditBlog from "./pages/blog/EditBlog";
 import BlogDetail from "./pages/blog/BlogDetail";
+import Index from "./pages/Home/Index";
+import BlogByCategory from "./pages/blog/BlogByCategory";
+import UserComment from "./pages/blog/UserComment";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -41,6 +41,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
+            <Route index element={<Index />}></Route>
+              <Route path="category/:id" element={<BlogByCategory />} />
+
             <Route element={<ProtectedRoute />}>
               {/* User Profile Route */}
               <Route path="profile" element={<Profile />} />
@@ -55,6 +58,9 @@ function App() {
               <Route path="/blog/add" element={<AddBlog />} />
               <Route path="/blog/edit/:id" element={<EditBlog />} />
               <Route path="/blog/:id" element={<BlogDetail />} />
+
+              {/* Comment Route */}
+              <Route path="/comments/:id" element={<UserComment />} />
             </Route>
           </Route>
 

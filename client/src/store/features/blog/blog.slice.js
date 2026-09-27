@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteBlogThunk,
+  getAllBlogsThunk,
   getBlogByIdThunk,
+  getBlogsByCategoryThunk,
   getBlogsByUserIdThunk,
   getReletedBlogsThunk,
   postBlogThunk,
@@ -109,6 +111,36 @@ const blogSlice = createSlice({
       state.multipleBlogData = action.payload;
     });
     addBuilder.addCase(getReletedBlogsThunk.rejected, (state, action) => {
+      state.screenLoading = false;
+      state.error = action.payload;
+      toast.error(action.payload);
+    });
+
+    // get all blogs
+    addBuilder.addCase(getAllBlogsThunk.pending, (state, action) => {
+      state.screenLoading = true;
+      state.error = null;
+    });
+    addBuilder.addCase(getAllBlogsThunk.fulfilled, (state, action) => {
+      state.screenLoading = false;
+      state.multipleBlogData = action.payload;
+    });
+    addBuilder.addCase(getAllBlogsThunk.rejected, (state, action) => {
+      state.screenLoading = false;
+      state.error = action.payload;
+      toast.error(action.payload);
+    });
+
+    // get blogs by category
+    addBuilder.addCase(getBlogsByCategoryThunk.pending, (state, action) => {
+      state.screenLoading = true;
+      state.error = null;
+    });
+    addBuilder.addCase(getBlogsByCategoryThunk.fulfilled, (state, action) => {
+      state.screenLoading = false;
+      state.multipleBlogData = action.payload;
+    });
+    addBuilder.addCase(getBlogsByCategoryThunk.rejected, (state, action) => {
       state.screenLoading = false;
       state.error = action.payload;
       toast.error(action.payload);

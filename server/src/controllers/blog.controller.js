@@ -145,9 +145,9 @@ export const deleteBlog = asynchandler(async (req, res, next) => {
     .json(new responsehandler(200, "Blog deleted successfully"));
 });
 
-export const getBlogs = asynchandler(async (req, res, next) => {
+export const getAllBlogs = asynchandler(async (req, res, next) => {
   // get all blogs
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate('author').populate('category', 'name');
 
   if (!blogs) {
     return next(new errorhandler("No blog found", 400));
@@ -188,13 +188,12 @@ export const getBlogByCategoryId = asynchandler(async (req, res, next) => {
 
   // get blog by id
   const blogs = await Blog.find(
-    { category: categoryId },
-    { featured_image: true, title: true },
-  );
+    { category: categoryId }
+  ).populate(['author', 'category']);
 
-  if (!blogs) {
-    return next(new errorhandler("Blog does not existed", 400));
-  }
+  // if (blogs.length == 0) {
+  //   return next(new errorhandler("No blog found", 400));
+  // }
 
   return res.status(200).json(new responsehandler(200, "Blog found", blogs));
 });

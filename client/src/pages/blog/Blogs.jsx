@@ -83,7 +83,7 @@ const Blogs = () => {
                     <td className="px-6 py-4 text-gray-500">{blog.slug}</td>
 
                     <td className="px-6 py-4 text-gray-500">
-                      {getFormattedDate(blog.createdAt)}
+                      {getFormattedDate(blog?.createdAt)}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-center gap-3">
@@ -91,7 +91,7 @@ const Blogs = () => {
                         <button
                           className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-200 cursor-pointer"
                           title="Edit"
-                          onClick={() => navigate(`/blog/edit/${blog._id}`)}
+                          onClick={() => navigate(`/blog/edit/${blog?._id}`)}
                         >
                           <FaRegEdit size={18} />
                         </button>

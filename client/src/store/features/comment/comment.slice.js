@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getComments, postComment } from "./comment.thunk";
+import { deleteCommentThunk, getComments, getCommentsByUserThunk, postComment } from "./comment.thunk";
 import toast from 'react-hot-toast'
 
 const initialState = {
@@ -41,6 +41,38 @@ const commentSlice = createSlice({
             state.comments = action.payload?.data
         })
         addBuilder.addCase(getComments.rejected, (state, action) => {
+            state.screenLoading = false
+            state.error = action.payload
+            toast.error(action.payload?.message)
+        })
+
+        // get comments by user
+        addBuilder.addCase(getCommentsByUserThunk.pending, (state, action) => {
+            state.screenLoading = true
+            state.error = null
+            state.comments = null
+        })
+        addBuilder.addCase(getCommentsByUserThunk.fulfilled, (state, action) => {
+            state.screenLoading = false
+            // console.log(action.payload)
+            state.comments = action.payload?.data
+        })
+        addBuilder.addCase(getCommentsByUserThunk.rejected, (state, action) => {
+            state.screenLoading = false
+            state.error = action.payload
+        })
+
+        // delete comment
+        addBuilder.addCase(deleteCommentThunk.pending, (state, action) => {
+            state.screenLoading = true
+            state.error = null
+            state.comments = null
+        })
+        addBuilder.addCase(deleteCommentThunk.fulfilled, (state, action) => {
+            state.screenLoading = false
+            toast.success(action.payload?.message);
+        })
+        addBuilder.addCase(deleteCommentThunk.rejected, (state, action) => {
             state.screenLoading = false
             state.error = action.payload
             toast.error(action.payload?.message)
