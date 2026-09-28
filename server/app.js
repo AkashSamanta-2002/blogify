@@ -18,6 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// deployment route
+app.get((req, res) => res.send("Hello from server"))
+
 // Routers
 import userRouter from "./src/routes/user.route.js";
 import blogRouter from "./src/routes/blog.route.js";
