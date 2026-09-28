@@ -70,7 +70,7 @@ const AddCategory = () => {
 
         <button
           type="submit"
-          className="btn btn-info w-full max-w-sm text-[#fffbfb] font-semibold"
+          className="btn btn-info w-full max-w-sm text-[#fffbfb] font-semibold bg-[#422ad5]"
           onClick={handleAddCategory}
         >
           Add

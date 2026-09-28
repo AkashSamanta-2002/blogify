@@ -7,6 +7,7 @@ export const postBlogThunk = createAsyncThunk(
     { title, slug, category, content, featuredImage },
     { rejectWithValue },
   ) => {
+    console.log(featuredImage)
     try {
       const response = await axiosInstance.post(
         "/blog/post",
@@ -125,6 +126,18 @@ export const getBlogsByCategoryThunk = createAsyncThunk(
     try {
       const response = await axiosInstance(`/blog/get-blogs-by-category/${id}`)
       console.log(response?.data)
+      return response?.data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.message);
+    }
+  }
+)
+
+export const getSearchedBlogsThunk = createAsyncThunk(
+  "blog/getSearchedBlogsThunk",
+  async (q, {rejectWithValue}) => {
+    try {
+      const response = await axiosInstance(`/blog/search-blogs?q=${q}`)
       return response?.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message);

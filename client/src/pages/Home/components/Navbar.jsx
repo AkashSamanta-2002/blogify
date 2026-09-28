@@ -19,6 +19,10 @@ const Navbar = () => {
     dispatch(logoutUserThunk());
   };
 
+  const handleSearch = (e) => {
+    navigate(`/blog/search?q=${e.target.value}`)
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full bg-base-100 border-b border-base-300">
       <div className="navbar min-h-16 px-4 lg:px-6">
@@ -84,6 +88,7 @@ const Navbar = () => {
                 <input
                   type="text"
                   placeholder="Search blogs..."
+                  onChange={handleSearch}
                 />
               </label>
             </div>

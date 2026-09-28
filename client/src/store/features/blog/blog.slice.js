@@ -6,6 +6,7 @@ import {
   getBlogsByCategoryThunk,
   getBlogsByUserIdThunk,
   getReletedBlogsThunk,
+  getSearchedBlogsThunk,
   postBlogThunk,
   updateBlogThunk,
 } from "./blog.thunk";
@@ -144,6 +145,21 @@ const blogSlice = createSlice({
       state.screenLoading = false;
       state.error = action.payload;
       toast.error(action.payload);
+    });
+
+    // get searched blogs
+    addBuilder.addCase(getSearchedBlogsThunk.pending, (state, action) => {
+      state.screenLoading = true;
+      state.error = null;
+    });
+    addBuilder.addCase(getSearchedBlogsThunk.fulfilled, (state, action) => {
+      state.screenLoading = false;
+      state.multipleBlogData = action.payload;
+    });
+    addBuilder.addCase(getSearchedBlogsThunk.rejected, (state, action) => {
+      state.screenLoading = false;
+      state.error = action.payload;
+      state.multipleBlogData = []
     });
   },
 });

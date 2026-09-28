@@ -16,6 +16,7 @@ import BlogDetail from "./pages/blog/BlogDetail";
 import Index from "./pages/Home/Index";
 import BlogByCategory from "./pages/blog/BlogByCategory";
 import UserComment from "./pages/blog/UserComment";
+import SearchResult from "./pages/blog/SearchResult";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -58,6 +59,7 @@ function App() {
               <Route path="/blog/add" element={<AddBlog />} />
               <Route path="/blog/edit/:id" element={<EditBlog />} />
               <Route path="/blog/:id" element={<BlogDetail />} />
+              <Route path="/blog/search" element={<SearchResult />} />
 
               {/* Comment Route */}
               <Route path="/comments/:id" element={<UserComment />} />

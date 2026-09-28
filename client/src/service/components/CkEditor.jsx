@@ -1,6 +1,6 @@
 /**
  * This configuration was generated using the CKEditor 5 Builder. You can modify it anytime using this link:
- * https://ckeditor.com/ckeditor-5/builder/#installation/NoNgNARAzAdATDADBSBGVICcdGqiOOKAFjhEU1QHYBWKqGqTADmpBuxGKitURJqIcxKjhogUEAKYA7FIjDBUYZarALUAXUiCqxAIYAjQxE1A
+ * https://builder.ckeditor.com/#installation/NoNgNARAzAdALDATBSBWAHHEAGbJUggDsq2UAnOagIy7rapHrlEiX6NG5SLpFRxU5RNmqYUEAKYA7FNjDBqYeUqUqAupCgBjEACM92AIYR1QA===
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
@@ -10,63 +10,50 @@ import {
 	Autosave,
 	Essentials,
 	Paragraph,
-	ImageUtils,
-	ImageEditing,
-	Fullscreen,
 	Autoformat,
 	TextTransformation,
+	LinkImage,
+	Link,
+	ImageBlock,
+	ImageToolbar,
+	BlockQuote,
+	Bold,
+	CloudServices,
+	ImageUpload,
+	ImageInsertViaUrl,
+	AutoImage,
+	Table,
+	TableToolbar,
+	Emoji,
 	Mention,
+	Heading,
+	ImageTextAlternative,
+	ImageCaption,
+	ImageStyle,
+	Indent,
+	IndentBlock,
+	ImageInline,
+	Italic,
+	List,
+	AdjacentListsSupport,
 	MediaEmbed,
 	MediaEmbedStyle,
 	MediaEmbedToolbar,
-	// Markdown,
-	PasteFromMarkdownExperimental,
-	Bold,
-	Italic,
+	TableCaption,
+	TodoList,
 	Underline,
-	Strikethrough,
-	Code,
+	Fullscreen,
 	Subscript,
 	Superscript,
 	FontBackgroundColor,
 	FontColor,
 	FontFamily,
 	FontSize,
-	Highlight,
-	Heading,
-	Link,
-	AutoLink,
-	BlockQuote,
 	HorizontalLine,
-	CodeBlock,
-	Indent,
-	IndentBlock,
 	Alignment,
 	Style,
 	GeneralHtmlSupport,
-	ImageInline,
-	ImageToolbar,
-	ImageBlock,
-	CloudServices,
-	ImageUpload,
-	ImageInsertViaUrl,
-	AutoImage,
-	ImageStyle,
-	LinkImage,
-	ImageCaption,
-	ImageTextAlternative,
-	List,
-	TodoList,
-	Table,
-	TableToolbar,
-	PlainTableOutput,
-	TableCaption,
 	ShowBlocks,
-	SourceEditing,
-	HtmlComment,
-	TextPartLanguage,
-	Title,
-	BalloonToolbar,
 	BlockToolbar
 } from 'ckeditor5';
 
@@ -74,10 +61,12 @@ import 'ckeditor5/ckeditor5.css';
 
 import './EditorStyle.css';
 
-const LICENSE_KEY =
-	'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3ODcxODM5OTksImp0aSI6Ijg1YmUwOTJlLWYyNmYtNDA1My05MTA2LTY3NTU3NDI0OGM4NiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6ImRiNjAyYTAzIn0.tTpupCE2Zh1LZPgPAg6osyFF5G31vOHDynU8sJbdpm3OPO39pKQfuFUdRrVCyyOGyAboUVlhLmeSjBPv7hn8Pg';
+/**
+ * Create a free account with a trial: https://portal.ckeditor.com/checkout?plan=free
+ */
+const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
 
-export default function CkEditor({initialData, handleEditorData}) {
+export default function CkEditor({handleEditorData, initialData}) {
 	const [isLayoutReady, setIsLayoutReady] = useState(false);
 
 	useEffect(() => {
@@ -95,16 +84,14 @@ export default function CkEditor({initialData, handleEditorData}) {
 			editorConfig: {
 				root: {
 					placeholder: 'Type or paste your content here!',
-					initialData: initialData || ""
+					initialData: initialData || ''			
 				},
 				toolbar: {
 					items: [
 						'undo',
 						'redo',
 						'|',
-						'sourceEditing',
 						'showBlocks',
-						'textPartLanguage',
 						'fullscreen',
 						'|',
 						'heading',
@@ -118,18 +105,15 @@ export default function CkEditor({initialData, handleEditorData}) {
 						'bold',
 						'italic',
 						'underline',
-						'strikethrough',
 						'subscript',
 						'superscript',
-						'code',
 						'|',
+						'emoji',
 						'horizontalLine',
 						'link',
 						'mediaEmbed',
 						'insertTable',
-						'highlight',
 						'blockQuote',
-						'codeBlock',
 						'|',
 						'alignment',
 						'|',
@@ -142,18 +126,16 @@ export default function CkEditor({initialData, handleEditorData}) {
 					shouldNotGroupWhenFull: false
 				},
 				plugins: [
+					AdjacentListsSupport,
 					Alignment,
 					Autoformat,
 					AutoImage,
-					AutoLink,
 					Autosave,
-					BalloonToolbar,
 					BlockQuote,
 					BlockToolbar,
 					Bold,
 					CloudServices,
-					Code,
-					CodeBlock,
+					Emoji,
 					Essentials,
 					FontBackgroundColor,
 					FontColor,
@@ -162,45 +144,34 @@ export default function CkEditor({initialData, handleEditorData}) {
 					Fullscreen,
 					GeneralHtmlSupport,
 					Heading,
-					Highlight,
 					HorizontalLine,
-					HtmlComment,
 					ImageBlock,
 					ImageCaption,
-					ImageEditing,
 					ImageInline,
 					ImageInsertViaUrl,
 					ImageStyle,
 					ImageTextAlternative,
 					ImageToolbar,
 					ImageUpload,
-					ImageUtils,
 					Indent,
 					IndentBlock,
 					Italic,
 					Link,
 					LinkImage,
 					List,
-					// Markdown,
 					MediaEmbed,
 					MediaEmbedStyle,
 					MediaEmbedToolbar,
 					Mention,
 					Paragraph,
-					PasteFromMarkdownExperimental,
-					PlainTableOutput,
 					ShowBlocks,
-					SourceEditing,
-					Strikethrough,
 					Style,
 					Subscript,
 					Superscript,
 					Table,
 					TableCaption,
 					TableToolbar,
-					TextPartLanguage,
 					TextTransformation,
-					Title,
 					TodoList,
 					Underline
 				],
@@ -208,7 +179,6 @@ export default function CkEditor({initialData, handleEditorData}) {
 				autosave: {
 					/* See: https://ckeditor.com/docs/ckeditor5/latest/features/autosave.html */
 				},
-				balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
 				blockToolbar: [
 					'fontSize',
 					'fontColor',
@@ -381,7 +351,7 @@ export default function CkEditor({initialData, handleEditorData}) {
 	return (
 		<div className="main-container">
 			<div className="editor-container editor-container_classic-editor editor-container_include-style editor-container_include-block-toolbar editor-container_include-fullscreen">
-				<div className="editor-container__editor">{editorConfig && <CKEditor onChange={handleEditorData} editor={ClassicEditor} config={editorConfig} />}</div>
+				<div className="editor-container__editor">{editorConfig && <CKEditor editor={ClassicEditor} config={editorConfig} onChange={handleEditorData} />}</div>
 			</div>
 		</div>
 	);

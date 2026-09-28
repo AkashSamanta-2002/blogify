@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCamera } from "react-icons/fa";
 import { updateUserProfileThunk } from "../../store/features/user/user.thunk";
+import defaultAvatar from "../../assets/images.png";
 
 const Profile = () => {
   const { userProfile } = useSelector((state) => state.user);
@@ -9,7 +10,7 @@ const Profile = () => {
 
   const [preview, setPreview] = useState(
     userProfile?.avatar ||
-      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
+      defaultAvatar,
   );
   const [formData, setFormData] = useState({
     name: userProfile?.name,

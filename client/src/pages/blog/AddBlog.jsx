@@ -6,6 +6,7 @@ import CkEditor from "../../service/components/CkEditor";
 import slugify from "slugify";
 import { postBlogThunk } from "../../store/features/blog/blog.thunk";
 import { useNavigate } from "react-router-dom";
+import defaultBlog from "../../assets/default_blog.png";
 
 const AddBlog = () => {
   const dispatch = useDispatch();
@@ -20,8 +21,8 @@ const AddBlog = () => {
     category: "",
     title: "",
     slug: "",
-    featuredImage: "",
-    content: "",
+    featuredImage: defaultBlog,
+    content: ""
   });
   const [preview, setPreview] = useState();
 
@@ -36,7 +37,6 @@ const AddBlog = () => {
 
   const handleEditorData = (event, editor) => {
     const editorData = editor.getData();
-    console.log(editorData);
     setBlogData({ ...blogData, content: editorData });
   };
 
@@ -172,7 +172,7 @@ const AddBlog = () => {
 
         <button
           type="submit"
-          className="btn btn-info w-full text-[#fffbfb] font-semibold"
+          className="btn btn-info w-full text-[#fffbfb] font-semibold bg-[#422AD5]"
           onClick={handleBlogSubmit}
         >
           Add

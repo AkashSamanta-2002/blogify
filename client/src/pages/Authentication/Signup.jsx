@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { registerUserThunk } from "../../store/features/user/user.thunk";
 import GoogleAuthentication from "../../service/components/GoogleAuthentication";
+import defaultAvatar from "../../assets/images.png";
 
 const Signup = () => {
 
@@ -18,6 +19,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    avatar: defaultAvatar
   });
 
   const handleSignupData = (e) => {
@@ -26,14 +28,14 @@ const Signup = () => {
   };
 
   const handleSignup = async () => {
-    const {name, email, password, confirmPassword} = signupData;
+    const {name, email, password, confirmPassword, avatar} = signupData;
     
     if(password !== confirmPassword) {
       toast.error("Password and confirm password should be same");
       return;
     }
 
-    const response = await dispatch(registerUserThunk({name, email, password}));
+    const response = await dispatch(registerUserThunk({name, email, password, avatar}));
     if(response?.payload?.success) {
       navigate('/')
     }
@@ -119,7 +121,7 @@ const Signup = () => {
           </fieldset>
         </div>
 
-        <button type="submit" className="btn btn-info w-full max-w-sm text-[#fffbfb] font-semibold" onClick={handleSignup}>
+        <button type="submit" className="btn btn-info w-full max-w-sm text-[#fffbfb] bg-[#422AD5] font-semibold" onClick={handleSignup}>
           Signup
         </button>
 
@@ -127,7 +129,7 @@ const Signup = () => {
           Already have an account?{" "}
           <NavLink
             to="/login"
-            className="text-info font-semibold hover:underline hover:text-info/80 transition-colors"
+            className="text-[#422AD5] font-semibold hover:underline hover:text-[#422AD5]/80 transition-colors"
           >
             Login
           </NavLink>

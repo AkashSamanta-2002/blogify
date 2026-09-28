@@ -11,6 +11,11 @@ export const addCategory = asynchandler(async (req, res, next) => {
     return next(new errorhandler("All fields are required", 400));
   }
 
+  const existingCategoryCheck = await Category.findOne({ slug });
+  if (existingCategoryCheck) {
+    return next(new errorhandler("Category already exists", 400));
+  }
+
   // insert in DB
   const newCategory = await Category.create({
     name,

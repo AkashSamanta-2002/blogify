@@ -27,13 +27,21 @@ export const postBlog = asynchandler(async (req, res, next) => {
     return next(new errorhandler("Invalid token", 400));
   }
 
+  // check existing blog
+  const existingBlogCheck = await Blog.findOne({ slug });
+  if (existingBlogCheck) {
+    return next(new errorhandler("Blog already exists"));
+  }
+
   // upload blog
   const newBlog = await Blog.create({
     title,
     slug,
     category,
     content,
-    featured_image: featuredImageUrl,
+    featured_image: featuredImageUrl
+      ? featuredImageUrl
+      : "/src/assets/default_blog.png",
     author: user._id,
   });
 
@@ -147,7 +155,9 @@ export const deleteBlog = asynchandler(async (req, res, next) => {
 
 export const getAllBlogs = asynchandler(async (req, res, next) => {
   // get all blogs
-  const blogs = await Blog.find({}).populate('author').populate('category', 'name');
+  const blogs = await Blog.find({})
+    .populate("author")
+    .populate("category", "name");
 
   if (!blogs) {
     return next(new errorhandler("No blog found", 400));
@@ -187,9 +197,10 @@ export const getBlogByCategoryId = asynchandler(async (req, res, next) => {
   }
 
   // get blog by id
-  const blogs = await Blog.find(
-    { category: categoryId }
-  ).populate(['author', 'category']);
+  const blogs = await Blog.find({ category: categoryId }).populate([
+    "author",
+    "category",
+  ]);
 
   // if (blogs.length == 0) {
   //   return next(new errorhandler("No blog found", 400));
@@ -227,5 +238,26 @@ export const getAllBlogsByUserID = asynchandler(async (req, res, next) => {
     return next(new errorhandler("No Blog exists", 400));
   }
 
+  return res.status(200).json(new responsehandler(200, "Blogs found", blogs));
+});
+
+export const getSearchedBlogs = asynchandler(async (req, res, next) => {
+  const { q } = req.query;
+
+  // get searched blogs
+  const blogs = await Blog.find({
+    title: {
+      $regex: q,
+      $options: "i",
+    },
+  })
+    .populate("author", "name avatar role")
+    .populate("category", "name");
+
+  if (blogs.length === 0) {
+    return res.status(200).json(new responsehandler(200, "Blogs found", []));
+  }
+
+  // return
   return res.status(200).json(new responsehandler(200, "Blogs found", blogs));
 });

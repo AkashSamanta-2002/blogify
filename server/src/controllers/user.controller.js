@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 import { uploadOnCloudinary } from '../services/cloudinary.service.js'
 
 export const signup = asynchandler(async (req, res, next) => {
-  const { name, email, password, bio } = req.body;
+  const { name, email, password, bio, avatar } = req.body;
 
   // Check all fields
   if (!name || !email || !password) {
@@ -32,6 +32,7 @@ export const signup = asynchandler(async (req, res, next) => {
     email,
     password: hashedPassword,
     bio,
+    avatar
   });
 
   // check user created or not

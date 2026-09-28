@@ -48,7 +48,6 @@ const categorySlice = createSlice({
     addbuilder.addCase(getAllCategoriesThunk.rejected, (state, action) => {
       state.screenLoading = false;
       state.error = action.payload;
-      toast.error(action.payload);
     });
 
     // Delete Category

@@ -3,12 +3,13 @@ import { axiosInstance } from "../../../service/axios.js";
 
 export const registerUserThunk = createAsyncThunk(
   "user/registerUserThunk",
-  async ({ name, email, password }, { rejectWithValue }) => {
+  async ({ name, email, password, avatar }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/user/signup", {
         name,
         email,
         password,
+        avatar
       });
 
       return response.data;

@@ -41,6 +41,21 @@ const Blogs = () => {
     }
   };
 
+  const { screenLoading } = useSelector((state) => state.blog);
+
+  if (screenLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-base-100">
+        <div className="flex flex-col items-center gap-4 p-8 rounded-2xl shadow-lg bg-white">
+          <span className="loading loading-spinner loading-lg text-info"></span>
+          <p className="text-gray-600 font-medium animate-pulse">
+            Loading blog...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-2">
       <div className="card bg-base-100 shadow-sm rounded-2xl border border-base-300 w-full max-w-6xl mx-auto mt-10 overflow-hidden">

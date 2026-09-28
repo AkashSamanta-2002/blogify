@@ -72,7 +72,7 @@ const Login = () => {
           </fieldset>
         </div>
 
-        <button type="submit" className="btn btn-info w-full max-w-sm text-[#fffbfb] font-semibold" onClick={handleLogin}>
+        <button type="submit" className="btn btn-info w-full max-w-sm text-[#fffbfb] font-semibold bg-[#422AD5]" onClick={handleLogin}>
           Login
         </button>
 
@@ -80,7 +80,7 @@ const Login = () => {
           Don't have an account?{" "}
           <NavLink
             to="/signup"
-            className="text-info font-semibold hover:underline hover:text-info/80 transition-colors"
+            className="text-[#422AD5] font-semibold hover:underline hover:text-[#422AD5]/80 transition-colors"
           >
             Signup
           </NavLink>

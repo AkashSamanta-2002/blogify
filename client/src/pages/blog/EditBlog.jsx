@@ -193,7 +193,7 @@ const EditBlog = () => {
 
         <button
           type="submit"
-          className="btn btn-info w-full text-[#fffbfb] font-semibold"
+          className="btn btn-info w-full text-[#fffbfb] font-semibold bg-[#422AD5]"
           onClick={handleBlogUpdate}
         >
           Update
