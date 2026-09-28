@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // deployment route
-app.get((req, res) => res.send("Hello from server"))
+app.get('/', (req, res) => res.send("Hello from server"))
 
 // Routers
 import userRouter from "./src/routes/user.route.js";
