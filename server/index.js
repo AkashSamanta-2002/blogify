@@ -8,4 +8,4 @@ connectDB()
       console.log(`Server started on port: ${process.env.PORT}`),
     );
   })
-  .catch((error) => throws(error));
+  .catch((error) => {throw error});
