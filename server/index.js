@@ -1,25 +1,47 @@
-import app from "./src/app.js";
-import { connectDB } from "./src/db/db.js";
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
+import express from "express";
 
-// import mongoose from "mongoose";
-// import { DB_NAME } from './constants.js'
-// let connectioninstance;
-// const connectDB = async () => {
-//     try {
-//         connectioninstance = await mongoose.connect(`${process.env.DB_URL}/${DB_NAME}`);
-//         console.log(`MongoDB Connected\nHost: ${connectioninstance.connection.host}`)
-//       } catch (error) {
-//         console.log(`Database connection error: ${error}`)
-//         throw error;
-//       }
-//     }
+const app = express();
 
-app.get('/check', (req, res) => res.json({"message": "Connected"}))
+// Middlewares
+import cookieParser from "cookie-parser";
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+
+// deployment route
+app.get('/', (req, res) => res.send("Hello from server"))
+
+// Routers
+import userRouter from "./src/routes/user.route.js";
+import blogRouter from "./src/routes/blog.route.js";
+import categoryRouter from "./src/routes/category.route.js";
+import commentRouter from "./src/routes/comment.route.js";
+import likeRouter from "./src/routes/like.route.js";
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/blog", blogRouter);
+app.use("/api/v1/category", categoryRouter)
+app.use("/api/v1/comment", commentRouter)
+app.use("/api/v1/like", likeRouter)
+
+// error middleware
+import { errorMiddleware } from "./src/middleware/error.middleware.js";
+app.use(errorMiddleware);
 
 // Database connection
+import { connectDB } from "./src/db/db.js";
 connectDB()
-  .then(() => {
-    app.listen(process.env.PORT || 8000, () =>
+.then(() => {
+  app.listen(process.env.PORT || 8000, () =>
       console.log(`Server started on port: ${process.env.PORT}`),
     );
   })
