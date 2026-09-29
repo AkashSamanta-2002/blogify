@@ -141,7 +141,7 @@ const BlogDetail = () => {
           Releted Blogs
         </h1>
         <div className="flex flex-col gap-3">
-          {reletedBlogs.map((reletedBlog) =>
+          {reletedBlogs?.map((reletedBlog) =>
             reletedBlog?._id == blog?.data?._id ? (
               ""
             ) : (
