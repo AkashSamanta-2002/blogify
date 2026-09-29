@@ -37,4 +37,4 @@ app.use("/api/v1/like", likeRouter)
 import { errorMiddleware } from "./middleware/error.middleware.js";
 app.use(errorMiddleware);
 
-export { app };
+export default app;
