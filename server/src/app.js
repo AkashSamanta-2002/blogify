@@ -23,11 +23,11 @@ app.use(cookieParser());
 app.get('/', (req, res) => res.send("Hello from server"))
 
 // Routers
-import userRouter from "./src/routes/user.route.js";
-import blogRouter from "./src/routes/blog.route.js";
-import categoryRouter from "./src/routes/category.route.js";
-import commentRouter from "./src/routes/comment.route.js";
-import likeRouter from "./src/routes/like.route.js";
+import userRouter from "./routes/user.route.js";
+import blogRouter from "./routes/blog.route.js";
+import categoryRouter from "./routes/category.route.js";
+import commentRouter from "./routes/comment.route.js";
+import likeRouter from "./routes/like.route.js";
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/category", categoryRouter)
@@ -35,7 +35,7 @@ app.use("/api/v1/comment", commentRouter)
 app.use("/api/v1/like", likeRouter)
 
 // error middleware
-import { errorMiddleware } from "./src/middleware/error.middleware.js";
+import { errorMiddleware } from "./middleware/error.middleware.js";
 app.use(errorMiddleware);
 
 export { app };
