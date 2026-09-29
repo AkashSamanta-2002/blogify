@@ -13,8 +13,6 @@ const connectDB = async () => {
         throw error;
       }
     }
-    
-    app.get('/check', (req, res) => res.json({"message": connectioninstance.connection.host}))
 
 // Database connection
 connectDB()

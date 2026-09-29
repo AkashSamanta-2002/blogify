@@ -20,6 +20,7 @@ app.use(cookieParser());
 
 // deployment route
 app.get('/', (req, res) => res.send("Hello from server"))
+app.get('/check', (req, res) => res.json({"message": "Connected"}))
 
 // Routers
 import userRouter from "./routes/user.route.js";
