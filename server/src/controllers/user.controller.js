@@ -5,7 +5,7 @@ import { errorhandler } from "../utils/errorHandler.util.js";
 import { responsehandler } from "../utils/responseHandler.util.js";
 import generator from "generate-password";
 import bcrypt from "bcryptjs";
-import { uploadOnCloudinary } from '../services/cloudinary.service.js'
+import { uploadOnCloudinary } from "../services/cloudinary.service.js";
 
 export const signup = asynchandler(async (req, res, next) => {
   const { name, email, password, bio, avatar } = req.body;
@@ -32,7 +32,7 @@ export const signup = asynchandler(async (req, res, next) => {
     email,
     password: hashedPassword,
     bio,
-    avatar
+    avatar,
   });
 
   // check user created or not
@@ -44,7 +44,12 @@ export const signup = asynchandler(async (req, res, next) => {
 
   // token assignment in cookies
   const token = generateToken(createdUser);
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 
   return res.json(
     new responsehandler(201, "User created successfully", createdUser),
@@ -66,7 +71,12 @@ export const googelAuth = asynchandler(async (req, res, next) => {
   if (existedUser) {
     // token assignment in cookies
     const token = generateToken(existedUser);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res
       .status(200)
@@ -130,7 +140,12 @@ export const login = asynchandler(async (req, res, next) => {
 
   // token assignment in cookies
   const token = generateToken(loggedInUser);
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 
   return res
     .status(200)
@@ -159,7 +174,8 @@ export const getUserProfile = asynchandler((req, res, next) => {
 });
 
 export const updateUserDetails = asynchandler(async (req, res, next) => {
-  let { name, bio, password } = req.body || next(new errorhandler("Updation fields required", 400));
+  let { name, bio, password } =
+    req.body || next(new errorhandler("Updation fields required", 400));
   const path = req.file?.path;
 
   // Check all fields
@@ -189,24 +205,29 @@ export const updateUserDetails = asynchandler(async (req, res, next) => {
     name = loggedInUser.name;
   }
 
-  if(!bio) {
+  if (!bio) {
     bio = loggedInUser.bio;
   }
 
   let avatarUrl = "";
-  if(path) {
+  if (path) {
     avatarUrl = await uploadOnCloudinary(path);
   } else {
     avatarUrl = loggedInUser?.avatar || "";
   }
 
   // update user
-  const updatedUser = await User.findOneAndUpdate({_id: loggedInUser._id}, {
-    $set: {name, password: newPassword, bio, avatar: avatarUrl}
-  })
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: loggedInUser._id },
+    {
+      $set: { name, password: newPassword, bio, avatar: avatarUrl },
+    },
+  );
 
   // check user created or not
-  const newUpdatedUser = await User.findById(updatedUser?._id, { password: false });
+  const newUpdatedUser = await User.findById(updatedUser?._id, {
+    password: false,
+  });
 
   if (!newUpdatedUser) {
     return next(new errorhandler("User updation failed", 400));
