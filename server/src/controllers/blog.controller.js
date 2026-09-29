@@ -155,6 +155,7 @@ export const deleteBlog = asynchandler(async (req, res, next) => {
 
 export const getAllBlogs = asynchandler(async (req, res, next) => {
   // get all blogs
+ return res.json({"message": "Request came"})
   const blogs = await Blog.find({})
     .populate("author")
     .populate("category", "name");
